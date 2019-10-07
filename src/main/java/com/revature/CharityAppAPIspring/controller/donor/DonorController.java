@@ -16,14 +16,16 @@ import com.revature.charity.service.DonorService;
 
 @RestController
 @RequestMapping("donor")
-public class DonorRegisterController {
-	@Autowired
-	private DonorService donorServiceObj;
+public class DonorController {
 	
 	/**
 	 *Donor register 
 	 **/
-	@GetMapping("/register")
+	
+	@Autowired
+	private DonorService donorServiceObj;
+	
+	@GetMapping("register")
 	public @ResponseBody String donorRegister(
 				@RequestParam("name")String name,
 				@RequestParam("email")String email,
@@ -32,9 +34,9 @@ public class DonorRegisterController {
 				@RequestParam("gender")String gender
 			)
 	{
+		
 		//Convert string to local date
 		LocalDate dateOfBirth = LocalDate.parse(dob);
-		
 		
 		String errorMSG = "";
 		String json = "";
