@@ -1,4 +1,4 @@
-package com.revature.CharityAppAPIspring;
+package com.revature.charityapp;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

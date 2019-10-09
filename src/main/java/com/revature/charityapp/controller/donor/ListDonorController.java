@@ -1,4 +1,4 @@
-package com.revature.CharityAppAPIspring.controller.donor;
+package com.revature.charityapp.controller.donor;
 
 import java.util.List;
 
@@ -9,42 +9,43 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.revature.charity.exception.ServiceException;
 import com.revature.charity.model.Donor;
 import com.revature.charity.service.DonorService;
+import com.revature.charity.util.Logger;
 
 @RestController
 @RequestMapping("donor")
-public class ListFundedDonorController {
-	
+public class ListDonorController {
 	/**
-	 * List funded donor
-	 * **/
-
+	 *List donor 
+	 **/
+	
 	@Autowired
 	private DonorService donorService;
 	
-	@GetMapping("fundeddonors")
-	public @ResponseBody String listFundedDonors()
+	@GetMapping("list")
+	public @ResponseBody String listDonor()
 	{
-		List<Donor> listDonor = null;
+		
+		List<Donor> donorList = null;
 		String errorMessage = null;
 		try {
-		listDonor = donorService.listFundedDonor();
+			donorList = donorService.donorList();
 		} catch (ServiceException e) {
 			errorMessage = e.getMessage();
+			Logger.error(e.getMessage());
 		}
+		//Prepare for json object
 		String json = null;
-		if(listDonor != null)
+		Gson gson = new Gson();
+		if(errorMessage != null)
 		{
-			Gson gson = new Gson();
-			json = gson.toJson(listDonor);
+			json = errorMessage;
 		} else {
-			JsonObject jsonObj = new JsonObject();
-			jsonObj.addProperty("ERROR_MESSAGE", errorMessage);
+			json = gson.toJson(donorList);
 		}
-	
 		return json;
+		
 	}
 }

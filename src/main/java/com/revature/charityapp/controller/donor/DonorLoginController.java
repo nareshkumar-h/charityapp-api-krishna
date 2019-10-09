@@ -1,18 +1,22 @@
-package com.revature.CharityAppAPIspring.controller.donor;
+package com.revature.charityapp.controller.donor;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.revature.charity.exception.ServiceException;
 import com.revature.charity.model.Donor;
 import com.revature.charity.service.DonorService;
+import com.revature.charityapp.util.Message;
+
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("donor")
@@ -25,7 +29,10 @@ public class DonorLoginController {
 	private DonorService donorServiceObj;
 	
 	@GetMapping("login")
-	public @ResponseBody String donorLogin(
+	@ApiOperation(value = "LoginApi")
+	 @ApiResponses(value = { @ApiResponse(code = 200, message = "Loggin Success!"),
+	 @ApiResponse(code = 400, message = "Login Failed!") })
+	public @ResponseBody ResponseEntity<?> donorLogin(
 				@RequestParam("email")String email,
 				@RequestParam("password")String password
 			)
@@ -42,16 +49,11 @@ public class DonorLoginController {
 			errorMsg = e.getMessage();
 		}
 
-		String json = null;
-		Gson gson = new Gson();
-
 		if (donorObj != null) {
-			json = gson.toJson(donorObj);
+			return new ResponseEntity<>(donorObj, HttpStatus.OK);
 		} else {
-			JsonObject jsonObj = new JsonObject();
-			jsonObj.addProperty("errorMessage", errorMsg);
-			json = jsonObj.toString();
+			Message message = new Message(errorMsg);
+			return new ResponseEntity<>(message,  HttpStatus.BAD_REQUEST);
 		}
-		return json;
 	}
 }

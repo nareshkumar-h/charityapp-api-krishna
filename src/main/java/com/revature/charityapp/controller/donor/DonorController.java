@@ -1,4 +1,4 @@
-package com.revature.CharityAppAPIspring.controller.donor;
+package com.revature.charityapp.controller.donor;
 
 import java.time.LocalDate;
 

@@ -1,4 +1,4 @@
-package com.revature.CharityAppAPIspring.controller.donor;
+package com.revature.charityapp.controller.donor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
