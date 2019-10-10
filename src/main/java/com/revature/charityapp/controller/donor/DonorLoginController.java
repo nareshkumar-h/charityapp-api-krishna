@@ -23,6 +23,8 @@ import io.swagger.annotations.ApiResponses;
 public class DonorLoginController {
 	/**
 	 *Donor login 
+	 *@param Email and Password
+	 *@Status{ code => Success => "200", Message => "Login Success!"}
 	 **/
 	
 	@Autowired
