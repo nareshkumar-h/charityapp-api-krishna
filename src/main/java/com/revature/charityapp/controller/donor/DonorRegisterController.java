@@ -16,7 +16,7 @@ import com.revature.charity.service.DonorService;
 
 @RestController
 @RequestMapping("donor")
-public class DonorController {
+public class DonorRegisterController {
 	
 	/**
 	 *Donor register 
