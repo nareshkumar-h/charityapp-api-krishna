@@ -1,4 +1,4 @@
-package com.revature.charityapp.datasource;
+package com.revature.charityapp.config;
 
 import java.util.Properties;
 
