@@ -40,7 +40,8 @@ public class FundService {
 	@Transactional
 	public FundRequest raiseFund(FundRequest fundRequest) throws ServiceException
 	{
-		FundRequest fundRequestObj;
+		FundRequest fundRequestObj = null;
+		System.out.println(fundRequest);
 		fundRequestObj = fundRepositioryObj.save(fundRequest);
 		if(fundRequestObj == null)
 		{

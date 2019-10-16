@@ -2,6 +2,8 @@ package com.revature.charityapp.controller.donor;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.charityapp.dto.LoginDTO;
+import com.revature.charityapp.dto.RegisterDTO;
 import com.revature.charityapp.exception.ServiceException;
 import com.revature.charityapp.model.Donor;
 import com.revature.charityapp.model.FundRequest;
@@ -56,18 +60,15 @@ public class DonorController {
 			@ApiResponse(code = 200, message = "Loggin Success!", response = Donor.class),
 			@ApiResponse(code = 400, message = "Login Failed!", response = Donor.class) 
 			})
-	public @ResponseBody ResponseEntity<?> donorLogin(
-				@RequestParam("email")String email,
-				@RequestParam("password")String password
-			)
+	public ResponseEntity<?> donorLogin(@RequestBody LoginDTO login)
 	{
 		Donor donorObj = null;
 		String errorMsg = null;
 
 		try {
 			Donor donor = new Donor();
-			donor.setEmail(email);
-			donor.setPassword(password);
+			donor.setEmail(login.getEmail());
+			donor.setPassword(login.getPassword());
 			donorObj = donorServiceObj.donorLogin(donor);
 		} catch (ServiceException e) {
 			errorMsg = e.getMessage();
@@ -101,27 +102,23 @@ public class DonorController {
 		@ApiResponse(code = 200, message = "Register success!", response = Donor.class),
 		@ApiResponse(code = 400, message = "Register failed!", response = Donor.class)
 	})
-	public ResponseEntity<?> donorRegister(
-				@RequestParam("name")String name,
-				@RequestParam("email")String email,
-				@RequestParam("password")String password,
-				@RequestParam("dob")String dob,
-				@RequestParam("gender")String gender
-			)
+	public ResponseEntity<?> donorRegister(@RequestBody RegisterDTO register)
 	{
 		
 		//Convert string to local date
-		LocalDate dateOfBirth = LocalDate.parse(dob);
+		LocalDate dateOfBirth = LocalDate.parse(register.getDob());
+		
+		
 		
 		String errorMSG = "";
 		Donor donorStatusObj = null;
 		try {
 			Donor donorObj = new Donor();		
-			donorObj.setName(name);
-			donorObj.setEmail(email);
-			donorObj.setPassword(password);
+			donorObj.setName(register.getName());
+			donorObj.setEmail(register.getEmail());
+			donorObj.setPassword(register.getPassword());
 			donorObj.setDateOfBirth(dateOfBirth);
-			donorObj.setGender(gender);
+			donorObj.setGender(register.getGender());
 			//Donor register service
 			donorStatusObj = donorServiceObj.donorRegister(donorObj);
 		} catch (ServiceException e) {
