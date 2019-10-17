@@ -5,6 +5,10 @@ addons:
     organization: "nareshkumar-h-github"
     token:
       secure: 584e849e517e4e59720f42f40a80206739f92078
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'   
     
 #jobs:
 #  include:
