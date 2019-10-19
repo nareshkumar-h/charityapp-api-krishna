@@ -41,7 +41,6 @@ public class FundService {
 	public FundRequest raiseFund(FundRequest fundRequest) throws ServiceException
 	{
 		FundRequest fundRequestObj = null;
-		System.out.println(fundRequest);
 		fundRequestObj = fundRepositioryObj.save(fundRequest);
 		if(fundRequestObj == null)
 		{
@@ -49,7 +48,6 @@ public class FundService {
 		}
 		return fundRequestObj;
 	}
-	@Transactional
 	public List<FundRequest> listFundRequest() throws ServiceException
 	{
 		List<FundRequest> listFund = null;
@@ -60,5 +58,14 @@ public class FundService {
 		}
 		return listFund;
 	}
-	
+	public List<FundRequest> listFundDetails() throws ServiceException
+	{
+		List<FundRequest> listFund = null;
+		listFund = fundRepositioryObj.findAll();
+		if(listFund == null)
+		{
+			throw new ServiceException(MessageConstant.UNABLE_TO_LIST_FUND_REQUEST);
+		}
+		return listFund;
+	}
 }

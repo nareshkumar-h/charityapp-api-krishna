@@ -29,7 +29,7 @@ public class FundRequest {
 	@Column(name="expire_date")
 	private LocalDate expireDate;
 	@Column(name="date")
-	private String date;
+	private LocalDate date = LocalDate.now();
 	@Column(name="amount")
 	private Double amount;
 	@Column(name="active")

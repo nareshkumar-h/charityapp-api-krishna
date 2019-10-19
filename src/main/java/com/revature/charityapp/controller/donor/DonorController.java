@@ -2,8 +2,6 @@ package com.revature.charityapp.controller.donor;
 
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.charityapp.dto.ContributeFundDTO;
 import com.revature.charityapp.dto.LoginDTO;
 import com.revature.charityapp.dto.RegisterDTO;
 import com.revature.charityapp.exception.ServiceException;
@@ -156,11 +154,7 @@ public class DonorController {
 		@ApiResponse( code = 200, message = "Transaction success!", response = Message.class),
 		@ApiResponse( code = 400, message = "Transaction failed!", response = Message.class)
 	})
-	public ResponseEntity<?> donorContribute(
-				@RequestParam("donorId") Integer donarId,
-				@RequestParam("fundrequestId")Integer fundrequestid,
-				@RequestParam("amount") Double fundAmount
-			)
+	public ResponseEntity<?> donorContribute(@RequestBody ContributeFundDTO contributeFundDTO)
 	{
 		Transaction transactionObj = new Transaction();
 		Transaction transaction = null;
@@ -168,14 +162,14 @@ public class DonorController {
 		String errorMsg = null;
 		
 		Donor donor = new Donor();
-		donor.setId(donarId);
+		donor.setId(contributeFundDTO.getDonarId());
 		
 		FundRequest fr = new FundRequest();
-		fr.setId(fundrequestid);
+		fr.setId(contributeFundDTO.getFundrequestId());
 		
 		transactionObj.setDonor(donor);
 		transactionObj.setFundRequest(fr);
-		transactionObj.setAmount(fundAmount);
+		transactionObj.setAmount(contributeFundDTO.getFundAmount());
 		
 		try {
 			transaction = transactionServiceObj.contributeFund(transactionObj);

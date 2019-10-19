@@ -34,5 +34,5 @@ public class Transaction {
 	@Column(name="amount")
 	private Double amount;
 	@Column(name="date")
-	private LocalDate date;
+	private LocalDate date = LocalDate.now();
 }
