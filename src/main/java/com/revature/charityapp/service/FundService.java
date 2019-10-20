@@ -21,7 +21,7 @@ public class FundService {
 	@Autowired
 	private FundDAO fundDAO;
 	@Transactional
-	public int updateDonor(FundRequest fundRequest) throws ServiceException
+	public int updateFundRequest(final FundRequest fundRequest) throws ServiceException
 	{
 		int rows = 0;
 		String requestType = fundRequest.getRequestType();
@@ -38,7 +38,7 @@ public class FundService {
 		return rows;
 	}
 	@Transactional
-	public FundRequest raiseFund(FundRequest fundRequest) throws ServiceException
+	public FundRequest raiseFund(final FundRequest fundRequest) throws ServiceException
 	{
 		FundRequest fundRequestObj = null;
 		fundRequestObj = fundRepositioryObj.save(fundRequest);
@@ -61,7 +61,8 @@ public class FundService {
 	public List<FundRequest> listFundDetails() throws ServiceException
 	{
 		List<FundRequest> listFund = null;
-		listFund = fundRepositioryObj.findAll();
+		LocalDate currentDate = LocalDate.now();
+		listFund = fundRepositioryObj.sortByExpiryDate(currentDate);
 		if(listFund == null)
 		{
 			throw new ServiceException(MessageConstant.UNABLE_TO_LIST_FUND_REQUEST);

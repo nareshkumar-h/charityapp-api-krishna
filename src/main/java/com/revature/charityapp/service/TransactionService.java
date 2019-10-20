@@ -16,7 +16,7 @@ public class TransactionService {
 	@Autowired
 	private TransactionRepository transactionRepository;
 	
-	public Transaction contributeFund(Transaction transaction) throws ServiceException
+	public Transaction contributeFund(final Transaction transaction) throws ServiceException
 	{
 		Transaction transactionObj;
 		transactionObj = transactionRepository.save(transaction);

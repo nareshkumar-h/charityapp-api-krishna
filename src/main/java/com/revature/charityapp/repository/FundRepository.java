@@ -1,6 +1,7 @@
 package com.revature.charityapp.repository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -30,6 +31,10 @@ public interface FundRepository extends JpaRepository<FundRequest, Integer>{
 			@Param("expiryDate") LocalDate expiryDate,
 			@Param("id") Integer id
 			);
+	
+	
+	@Query(" FROM FundRequest f WHERE f.expireDate >= :currentDate")
+	public List<FundRequest> sortByExpiryDate(@Param("currentDate") LocalDate expireDate);
 	
 	
 }

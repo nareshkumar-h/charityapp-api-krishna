@@ -15,7 +15,7 @@ public class DonorService {
 	@Autowired
 	DonorRepository donorRepositoryObj;
 	
-	public Donor donorLogin(Donor donorObj) throws ServiceException
+	public Donor donorLogin(final Donor donorObj) throws ServiceException
 	{
 		Donor donor = null;
 		String email = donorObj.getEmail();
@@ -43,7 +43,7 @@ public class DonorService {
 		
 	}
 	
-	public Donor donorRegister(Donor donor) throws ServiceException
+	public Donor donorRegister(final Donor donor) throws ServiceException
 	{
 		Donor donorObj = null;
 		donorObj = donorRepositoryObj.save(donor);

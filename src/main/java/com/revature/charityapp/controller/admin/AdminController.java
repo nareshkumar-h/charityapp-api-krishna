@@ -162,7 +162,7 @@ public class AdminController {
 		fundRequest.setDescription(updateFundDTO.getDescription());
 		fundRequest.setRequestType(updateFundDTO.getRequestType());
 		
-		rows = fundService.updateDonor(fundRequest);
+		rows = fundService.updateFundRequest(fundRequest);
 		} catch(ServiceException e){
 			errorMessage = e.getMessage();
 		}

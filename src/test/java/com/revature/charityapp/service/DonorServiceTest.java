@@ -62,7 +62,7 @@ public class DonorServiceTest {
 		try {
 			Donor donorObj = new Donor();
 			donorObj.setName("ramkumar");
-			donorObj.setEmail("ramkumar@gmail.com");
+			donorObj.setEmail("ramkumar192@gmail.com");
 			donorObj.setPassword("mypass123");
 			
 			LocalDate dob = LocalDate.parse("1997-06-05");
