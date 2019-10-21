@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.revature.charityapp.exception.ServiceException;
 import com.revature.charityapp.model.FundRequest;
+import com.revature.charityapp.util.CloseConnection;
 import com.revature.charityapp.util.MessageConstant;
 
 @Repository
@@ -33,8 +34,9 @@ public class FundDAO {
 		ResultSet rs = null;
 		List<FundRequest> list = null;
 
-		list = new ArrayList<FundRequest>();
+		
 		try {
+			list = new ArrayList<>();
 			conn = dataSource.getConnection();
 			String sqlStmt = "SELECT id,request_type,description,"
 					+ "(amount -(SELECT IFNULL(SUM(amount),0) FROM transaction WHERE fund_request_id = fr.id)) as needed_amount,"
@@ -67,11 +69,9 @@ public class FundDAO {
 		} catch(SQLException e){
 			throw new ServiceException(MessageConstant.UNABLE_TO_LIST_FUND_REQUEST);
 		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+			
+				CloseConnection.close(conn, pstmt, rs);;
+			
 		}
 		return list;
 	}
