@@ -13,7 +13,7 @@ public class AdminService {
 	@Autowired
 	AdminRepository adminRepositoryObj;
 	
-	public Admin adminLogin(Admin adminObj) throws ServiceException
+	public Admin adminLogin(final Admin adminObj) throws ServiceException
 	{
 		Admin admin = null;
 		String email = adminObj.getEmail();

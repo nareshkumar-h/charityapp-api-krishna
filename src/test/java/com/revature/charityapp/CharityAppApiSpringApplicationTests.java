@@ -10,7 +10,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class CharityAppApiSpringApplicationTests {
 
 	@Test
-	public void contextLoads() {
+	public void charityAppTest()
+	{
+		
 	}
 
 }

@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.charityapp.dto.LoginDTO;
 import com.revature.charityapp.dto.RaiseFundDTO;
+import com.revature.charityapp.dto.UpdateFundDTO;
 import com.revature.charityapp.exception.ServiceException;
 import com.revature.charityapp.model.Admin;
 import com.revature.charityapp.model.Donor;
@@ -147,31 +147,22 @@ public class AdminController {
 			@ApiResponse(code = 200, message = "Update Success!", response = FundRequest.class),
 			@ApiResponse(code = 400, message = "Update Failed!", response = FundRequest.class) 
 	})
-	public ResponseEntity<?> updateFundRequest(
-				@RequestParam("fundId")String id,
-				@RequestParam("requestType")String requestType,
-				@RequestParam("description")String description,
-				@RequestParam("amount")String amount,
-				@RequestParam("expireDate")String expireDate
-			)
+	public ResponseEntity<?> updateFundRequest(@RequestBody UpdateFundDTO updateFundDTO)
 	{
 		int rows = 0;
 		String errorMessage = null;
 		try {
 		
 		FundRequest fundRequest = new FundRequest();
+		LocalDate expiryDate = LocalDate.parse(updateFundDTO.getExpireDate());
 		
-		Integer fundId = Integer.parseInt(id);
-		Double fundAmount = Double.parseDouble(amount);
-		LocalDate expiryDate = LocalDate.parse(expireDate);
-		
-		fundRequest.setId(fundId);
-		fundRequest.setAmount(fundAmount);
+		fundRequest.setId(updateFundDTO.getId());
+		fundRequest.setAmount(updateFundDTO.getAmount());
 		fundRequest.setExpireDate(expiryDate);
-		fundRequest.setDescription(description);
-		fundRequest.setRequestType(requestType);
+		fundRequest.setDescription(updateFundDTO.getDescription());
+		fundRequest.setRequestType(updateFundDTO.getRequestType());
 		
-		rows = fundService.updateDonor(fundRequest);
+		rows = fundService.updateFundRequest(fundRequest);
 		} catch(ServiceException e){
 			errorMessage = e.getMessage();
 		}
@@ -201,7 +192,6 @@ public class AdminController {
 	})
 	public ResponseEntity<?> raiseFund(@RequestBody RaiseFundDTO raiseFund)
 	{
-		System.out.println(raiseFund);
 		FundRequest fundRequest= new FundRequest();
 		FundRequest fundRequestObj= new FundRequest();
 		
@@ -261,38 +251,33 @@ public class AdminController {
 	
 	/** End **/
 	
-//	/**
-//	 *List contributed donors 
-//	 *Status:success=>{code=200, message=List success}
-//	 *Status:failure=>{code=400, message=List failed}
-//	 *return:loggin success=>{list funded donors details}
-//	 *return:loogin failed=>{error message}
-//	 **/
-//	
-//	@GetMapping("fundedDonors")
-//	@ApiOperation(value = "List Contributed Donors")
-//	@ApiResponses(value= {
-//			@ApiResponse(code=200, message="List Success"),
-//			@ApiResponse(code=400, message="List Failure")
-//	})
-//	public ResponseEntity<?> listFundedDonors()
-//	{
-//		List<Donor> listDonor = null;
-//		String errorMessage = null;
-//		try {
-//		listDonor = donorServiceObj.listFundedDonor();
-//		} catch (ServiceException e) {
-//			errorMessage = e.getMessage();
-//		}
-//		
-//		if(listDonor != null)
-//		{
-//			return new ResponseEntity<>(listDonor, HttpStatus.OK);
-//		} else {
-//			Message message = new Message(errorMessage);
-//			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
-//		}
-//	}
+	
+	/*List fund request*/
+	@GetMapping("listFundDetails")
+	@ApiOperation("List fund details")
+	@ApiResponses({
+		@ApiResponse(code=200, message = "list success", response = FundRequest.class),
+		@ApiResponse(code=400, message = "list failure", response = FundRequest.class)
+	})
+	public ResponseEntity<?> listFundDetails()
+	{
+		String errorMessage = null;
+		List<FundRequest> listFundDetails = null;
+		try {
+			listFundDetails = fundService.listFundDetails();
+		} catch(ServiceException e)
+		{
+			errorMessage = e.getMessage();
+		}
+		
+		if(listFundDetails != null)
+		{
+			return new ResponseEntity<>(listFundDetails, HttpStatus.OK);
+		} else {
+			Message message = new Message(errorMessage);
+			return new ResponseEntity<>(message,HttpStatus.BAD_REQUEST);
+		}
+	}
 	
 
 }

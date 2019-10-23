@@ -30,7 +30,7 @@ public class Donor {
 	@Column(name="gender")
 	private String gender;
 	@Column(name="date")
-	private LocalDate date;
+	private LocalDate date = LocalDate.now();
 	@Column(name="active")
 	private String active;
 }
